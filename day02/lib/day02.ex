@@ -17,19 +17,19 @@ defmodule Day02.StrategyGuide do
   end
 
   def throw_rounds(parsed_input) do
-    Enum.map(parsed_input, fn
-      [a, 1] -> [a, throw_round(a, :lose)]
-      [a, 2] -> [a, throw_round(a, :draw)]
-      [a, 3] -> [a, throw_round(a, :win)]
-    end)
+    Enum.map(parsed_input, fn [a, x] -> [a, throw_round(a, x)] end)
   end
 
-  def throw_round(opp, round_end) do
-    case round_end do
-      :win -> if opp < 3, do: opp + 1, else: 1
-      :lose -> if opp > 1, do: opp - 1, else: 3
-      :draw -> opp
-    end
+  def throw_round(opp, 1) do
+    if opp > 1, do: opp - 1, else: 3
+  end
+
+  def throw_round(opp, 2) do
+    opp
+  end
+
+  def throw_round(opp,  3) do
+    if opp < 3, do: opp + 1, else: 1
   end
 
   def parse_input(input_str) do

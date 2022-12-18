@@ -37,7 +37,7 @@ defmodule Day03.RucksackOrganizer do
   def item_priority(item) do
     with code <- :binary.first(item) do
       case string_class(item) do
-        :upper -> code - 63
+        :upper -> code - 38
         :lower -> code - 96
       end
     end
@@ -63,5 +63,6 @@ defmodule Day03.RucksackOrganizer do
     |> parse_input
     |> Enum.flat_map(&find_items_in_both_compartments/1)
     |> Enum.map(&item_priority/1)
+    |> Enum.sum
   end
 end

@@ -25,19 +25,21 @@ defmodule Day03.RucksackOrganizer do
 
   def find_items_in_both_compartments(rucksack) do
     len = div(String.length(rucksack), 2)
-    {compartment1, compartment2} = String.split_at(rucksack, len)
-    compartment1
-    |> String.graphemes
-    |> Enum.uniq
-    |> Enum.filter(fn x -> x in String.graphemes(compartment2) end)
+
+    with {compartment1, compartment2} <- String.split_at(rucksack, len) do
+      compartment1
+      |> String.graphemes
+      |> Enum.uniq
+      |> Enum.filter(fn x -> x in String.graphemes(compartment2) end)
+    end
   end
 
   def item_priority(item) do
-    code = :binary.first(item)
-
-    case string_class(item) do
-      :upper -> code - 63
-      :lower -> code - 96
+    with code <- :binary.first(item) do
+      case string_class(item) do
+        :upper -> code - 63
+        :lower -> code - 96
+      end
     end
   end
 
@@ -61,6 +63,5 @@ defmodule Day03.RucksackOrganizer do
     |> parse_input
     |> Enum.flat_map(&find_items_in_both_compartments/1)
     |> Enum.map(&item_priority/1)
-    # |> Enum.join
   end
 end
